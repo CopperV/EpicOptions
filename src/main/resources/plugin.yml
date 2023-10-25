@@ -8,3 +8,5 @@ libraries:
   - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.6.3
 
 commands:
+  ustawienia:
+    aliases: [opcje, options]

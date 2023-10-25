@@ -3,7 +3,7 @@ package me.Vark123.EpicOptions.OptionSystem;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
-public class TestInventoryItem implements IInventoryItem {
+public class TestInventoryItem implements IOptionItem {
 
 	@Override
 	public ItemStack getItem() {
@@ -14,7 +14,4 @@ public class TestInventoryItem implements IInventoryItem {
 	public int getSlot() {
 		return 0;
 	}
-
-	
-	
 }

@@ -5,12 +5,13 @@ import lombok.Builder;
 import lombok.Getter;
 
 @Getter
-@Builder
 @AllArgsConstructor
+@Builder
 public class Option <T> {
 
 	private String id;
-	private IInventoryItem invItem;
+	private IOptionItem invItem;
+	private IClickAction<T> clickAction;
 	private T defaultValue;
 	
 	public Class<?> getValueClass() {

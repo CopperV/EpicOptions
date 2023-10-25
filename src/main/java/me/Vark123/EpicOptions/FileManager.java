@@ -2,11 +2,9 @@ package me.Vark123.EpicOptions;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
@@ -40,7 +38,6 @@ public final class FileManager {
 			}
 		
 		YamlConfiguration fYml = YamlConfiguration.loadConfiguration(f);
-		Bukkit.broadcastMessage(Arrays.toString(fYml.getKeys(false).toArray()));
 		Collection<PlayerOption<?>> options = new HashSet<>();
 		OptionManager.get().getOptions().parallelStream()
 			.forEach(option -> {
@@ -72,7 +69,6 @@ public final class FileManager {
 		
 		YamlConfiguration fYml = YamlConfiguration.loadConfiguration(f);
 		fYml.set("last-nick", p.getName());
-//		fYml.set("options", null);
 		op.getOptions()
 			.forEach(option -> fYml.set("options."+option.getOption().getId(), option.getValue()));
 		

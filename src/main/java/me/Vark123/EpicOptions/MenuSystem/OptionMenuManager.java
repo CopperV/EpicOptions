@@ -10,7 +10,6 @@ import io.github.rysefoxx.inventory.plugin.content.InventoryContents;
 import io.github.rysefoxx.inventory.plugin.content.InventoryProvider;
 import io.github.rysefoxx.inventory.plugin.pagination.RyseInventory;
 import me.Vark123.EpicOptions.Main;
-import me.Vark123.EpicOptions.OptionSystem.IOptionItem;
 import me.Vark123.EpicOptions.PlayerSystem.PlayerManager;
 
 public final class OptionMenuManager {
@@ -44,8 +43,8 @@ public final class OptionMenuManager {
 					
 					PlayerManager.get().getPlayerOptions(player).ifPresent(op -> {
 						op.getOptions().forEach(option -> {
-							IOptionItem item = option.getOption().getInvItem();
-							contents.set(item.getSlot(), IntelligentItem.of(item.getItem(), e -> option.clickAction(op)));
+							IOptionItem<?> item = option.getOption().getInvItem();
+							contents.set(item.getSlot(), IntelligentItem.of(option.getItem(op), e -> option.clickAction(op)));
 						});
 					});
 				}

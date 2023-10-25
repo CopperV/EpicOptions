@@ -1,12 +1,11 @@
 package me.Vark123.EpicOptions;
 
+import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import io.github.rysefoxx.inventory.plugin.pagination.InventoryManager;
 import lombok.Getter;
-import me.Vark123.EpicOptions.OptionSystem.Option;
-import me.Vark123.EpicOptions.OptionSystem.OptionManager;
-import me.Vark123.EpicOptions.OptionSystem.TestInventoryItem;
+import me.Vark123.EpicOptions.PlayerSystem.PlayerManager;
 
 @Getter
 public class Main extends JavaPlugin {
@@ -30,32 +29,18 @@ public class Main extends JavaPlugin {
 		FileManager.init();
 		ListenerManager.registerListeners();
 		CommandManager.setExecutors();
-		
-//		Option<?> option = new Option<Boolean>(
-//				getName(), 
-//				new TestInventoryItem(), 
-//				(op, pOption) -> {
-//					boolean value = pOption.getValue();
-//					pOption.setValue(Boolean.valueOf(!value));
-//				}, 
-//				false);
-		Option<?> option = Option.builder()
-				.id("test_id")
-				.invItem(new TestInventoryItem())
-				.defaultValue(false)
-				.clickAction((op, pOption) -> {
-					boolean value = (boolean) pOption.getValue();
-					op.getPlayer().sendMessage("Zmieniam na "+!value);
-					pOption.setValue(Boolean.valueOf(!value));
-				})
-				.build();
-		OptionManager.get().registerOption(option);
-		
 	}
 
 	@Override
 	public void onDisable() {
-		
+		Bukkit.getOnlinePlayers().stream()
+			.map(PlayerManager.get()::getPlayerOptions)
+			.filter(op -> op.isPresent())
+			.map(op -> op.get())
+			.forEach(op -> {
+				FileManager.savePlayer(op);
+				PlayerManager.get().unregisterPlayerOptions(op);
+			});
 	}
 	
 //	@Getter

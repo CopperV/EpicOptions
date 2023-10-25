@@ -1,16 +1,16 @@
 package me.Vark123.EpicOptions.OptionSystem;
 
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Getter;
+import me.Vark123.EpicOptions.MenuSystem.IClickAction;
+import me.Vark123.EpicOptions.MenuSystem.IOptionItem;
 
 @Getter
 @AllArgsConstructor
-@Builder
 public class Option <T> {
 
 	private String id;
-	private IOptionItem invItem;
+	private IOptionItem<T> invItem;
 	private IClickAction<T> clickAction;
 	private T defaultValue;
 	

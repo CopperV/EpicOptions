@@ -1,4 +1,4 @@
-package me.Vark123.EpicOptions.OptionSystem;
+package me.Vark123.EpicOptions.MenuSystem;
 
 import me.Vark123.EpicOptions.PlayerSystem.OPlayer;
 import me.Vark123.EpicOptions.PlayerSystem.PlayerOption;

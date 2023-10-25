@@ -1,5 +1,7 @@
 package me.Vark123.EpicOptions.PlayerSystem;
 
+import org.bukkit.inventory.ItemStack;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -31,6 +33,10 @@ public class PlayerOption<T> implements IOptionAccessor<T> {
 	
 	public void clickAction(OPlayer op) {
 		option.getClickAction().onClick(op, this);
+	}
+	
+	public ItemStack getItem(OPlayer op) {
+		return option.getInvItem().getItem(op, this);
 	}
 
 }

@@ -1,5 +1,7 @@
 package me.Vark123.EpicOptions.OptionSystem;
 
+import java.lang.reflect.InvocationTargetException;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import me.Vark123.EpicOptions.MenuSystem.IClickAction;
@@ -20,6 +22,17 @@ public class Option <T> {
 	
 	public T getDefaultValue() {
 		return defaultValue;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public T getValueNewInstance() {
+		try {
+			return (T) defaultValue.getClass().getDeclaredConstructor().newInstance();
+		} catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException
+				| NoSuchMethodException | SecurityException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 }

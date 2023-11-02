@@ -1,6 +1,7 @@
 package me.Vark123.EpicOptions.PlayerSystem;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.bukkit.entity.Player;
 
@@ -17,5 +18,11 @@ public class OPlayer {
 
 	private Player player;
 	private Collection<PlayerOption<?>> options;
+	
+	public Optional<PlayerOption<?>> getPlayerOptionByID(String id) {
+		return options.parallelStream()
+				.filter(option -> option.getOption().getId().equals(id))
+				.findAny();
+	}
 	
 }

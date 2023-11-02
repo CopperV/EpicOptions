@@ -41,7 +41,7 @@ public final class FileManager {
 		Collection<PlayerOption<?>> options = new HashSet<>();
 		OptionManager.get().getOptions().parallelStream()
 			.forEach(option -> {
-				Object value = fYml.getObject("options."+option.getId(), option.getValueClass());
+				Object value = fYml.getObject("options."+option.getId(), option.getValueNewInstance().getClass());
 				if(value == null)
 					value = option.getDefaultValue();
 				options.add(PlayerOption.builder()
@@ -70,7 +70,9 @@ public final class FileManager {
 		YamlConfiguration fYml = YamlConfiguration.loadConfiguration(f);
 		fYml.set("last-nick", p.getName());
 		op.getOptions()
-			.forEach(option -> fYml.set("options."+option.getOption().getId(), option.getValue()));
+			.forEach(option -> {
+				fYml.set("options."+option.getOption().getId(), option.getValue());
+			});
 		
 		try {
 			fYml.save(f);

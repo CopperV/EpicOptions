@@ -16,11 +16,6 @@ public class PlayerOption<T> implements IOptionAccessor<T> {
 	@Getter(value = AccessLevel.NONE)
 	private T value;
 	
-//	public PlayerOption(Option<T> option, T value) {
-//		this.option = option;
-//		this.value = value;
-//	}
-	
 	@Override
 	public T getValue() {
 		return value;

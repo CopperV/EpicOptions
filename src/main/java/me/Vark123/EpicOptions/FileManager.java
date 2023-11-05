@@ -5,9 +5,11 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.HashSet;
 
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.entity.Player;
 
+import me.Vark123.EpicOptions.OptionSystem.ISerializable;
 import me.Vark123.EpicOptions.OptionSystem.Option;
 import me.Vark123.EpicOptions.OptionSystem.OptionManager;
 import me.Vark123.EpicOptions.PlayerSystem.OPlayer;
@@ -26,7 +28,6 @@ public final class FileManager {
 			playerDir.mkdir();
 	}
 	
-	@SuppressWarnings("unchecked")
 	public static OPlayer loadPlayerOptions(Player p) {
 		String fileName = p.getUniqueId().toString()+".yml";
 		File f = new File(playerDir, fileName);
@@ -41,13 +42,17 @@ public final class FileManager {
 		Collection<PlayerOption<?>> options = new HashSet<>();
 		OptionManager.get().getOptions().parallelStream()
 			.forEach(option -> {
-				Object value = fYml.getObject("options."+option.getId(), option.getValueNewInstance().getClass());
-				if(value == null)
-					value = option.getDefaultValue();
-				options.add(PlayerOption.builder()
-						.option((Option<Object>) option)
+				ISerializable value = option.getDefaultValue().copy();
+				ConfigurationSection section = fYml.getConfigurationSection(option.getId());
+				if(section != null) {
+					value.deserialize(section);
+				}
+				@SuppressWarnings("unchecked")
+				PlayerOption<?> pOption = PlayerOption.builder()
+						.option((Option<ISerializable>) option)
 						.value(value)
-						.build());
+						.build();
+				options.add(pOption);
 			});
 		
 		return OPlayer.builder()
@@ -71,9 +76,13 @@ public final class FileManager {
 		fYml.set("last-nick", p.getName());
 		op.getOptions()
 			.forEach(option -> {
-				fYml.set("options."+option.getOption().getId(), option.getValue());
+				Option<?> _option = option.getOption();
+				if(!fYml.isConfigurationSection(_option.getId()))
+					fYml.createSection(_option.getId());
+				ConfigurationSection section = fYml.getConfigurationSection(_option.getId());
+				option.getValue().serialize(section);
 			});
-		
+
 		try {
 			fYml.save(f);
 		} catch (IOException e) {

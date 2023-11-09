@@ -1,5 +1,5 @@
 name: EpicOptions
-version: 1.0.0-ALPHA
+version: 1.0.0
 main: me.Vark123.EpicOptions.Main
 author: Vark123
 api-version: 1.18
@@ -8,3 +8,5 @@ libraries:
   - io.github.rysefoxx.inventory:RyseInventory-Plugin:1.6.3
 
 commands:
+  ustawienia:
+    aliases: [opcje, options]
